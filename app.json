@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "chorespliter",
-    "slug": "chorespliter",
+    "name": "Bioler Plate",
+    "slug": "bioler-plate",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -10,16 +10,18 @@
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#091B4E"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.umairmanzoor1145.biolerplate"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      }
+        "backgroundColor": "#091B4E"
+      },
+      "package": "com.umairmanzoor1145.biolerplateandroid"
     },
     "web": {
       "bundler": "metro",
@@ -27,10 +29,22 @@
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "The app accesses your photos to let you share them with your friends."
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "7cc0ad45-e962-46c6-90c9-f31b52392703"
+      }
+    },
+    "scheme": "bioler-plate"
   }
 }
