@@ -27,5 +27,5 @@ export const useImagePicker = () => {
 
   const resetImage = () => setUri(null);
 
-  return { uri, pickImage, resetImage };
+  return { uri, pickImage, resetImage, setUri };
 }; 

@@ -1,6 +1,7 @@
 import { Tabs } from 'expo-router';
 import React from 'react';
-
+import { TouchableOpacity } from 'react-native';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { TabBarIcon } from '@/components/TabBarIcon';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
@@ -11,8 +12,12 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        tabBarActiveTintColor: '#000000',
+        tabBarInactiveTintColor: '#000000',
         headerShown: true,
+        tabBarLabelStyle: {
+          color: '#000000',
+        },
       }}>
       <Tabs.Screen
         name="index"
@@ -38,13 +43,10 @@ export default function TabLayout() {
           ),
         }}
       />
-      <Tabs.Screen
+       <Tabs.Screen
         name="profile"
         options={{
-          title: 'Profile',
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
-          ),
+          headerShown: false,
         }}
       />
     </Tabs>

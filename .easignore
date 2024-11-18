@@ -22,5 +22,3 @@ expo-env.d.ts
 .env.*
 .env.local
 # @end expo-cli
-google-services.json
-GoogleService-Info.plist

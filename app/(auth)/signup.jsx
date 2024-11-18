@@ -59,17 +59,15 @@ function SignUp() {
     if (!validateForm()) return;
 
     try {
-      debugger;
-      await signUp(formData.email, formData.password, formData.username, profileImage);
+      await signUp({...formData, profileImageUri: profileImage});
     } catch (error) {
       Alert.alert("Error", error.message);
-      navigation.navigate("login");
     }
   };
 
   return (
     <SafeAreaView style={styles.container}>
-     <LoadingLayout loading={signUpLoading}>
+     {/* <LoadingLayout loading={signUpLoading}> */}
       <CustomKeyboardView style={styles.scrollContent}>
         <View style={styles.formContainer}>
         <Text style={styles.title}>Create Account</Text>
@@ -133,7 +131,7 @@ function SignUp() {
           </View>
         </View>
       </CustomKeyboardView>
-      </LoadingLayout>
+      {/* </LoadingLayout> */}
     </SafeAreaView>
   );
 }

@@ -87,7 +87,7 @@ export function getFirebaseErrorMessage(errorCode: string): string {
       return 'Operation canceled';
 
     default:
-      return 'An unexpected error occurred';
+      return errorCode;
   }
 }
 

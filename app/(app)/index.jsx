@@ -3,8 +3,31 @@ import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { useAuth } from '@/context/authContext';
+import { useRouter } from 'expo-router';
+import { useNotification } from "@/context/NotificaionContext";
+import { useState, useEffect } from 'react';
+
+// Updated helper function to get precise local date and time
+const getCurrentLocalDate = () => {
+  const now = new Date();
+  return now; // No need for timezone offset as we'll use local methods
+};
+
 export default function HomeScreen() {
-  const { logout, user } = useAuth();
+  const { logout, user, isDailyGoalMet , lastActiveDate} = useAuth();
+  const { notification, expoPushToken, error } = useNotification();
+  const router = useRouter();
+  const [dateTime, setDateTime] = useState(getCurrentLocalDate());
+
+  // Add useEffect to update time every second if you want live updates
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setDateTime(getCurrentLocalDate());
+    }, 1000);
+
+    return () => clearInterval(timer); // Cleanup on unmount
+  }, []);
+
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
@@ -14,10 +37,31 @@ export default function HomeScreen() {
           style={styles.reactLogo}
         />
       }>
+     
       <ThemedView style={styles.titleContainer}>
-      <ThemedText type="title">{user?.displayName}</ThemedText>
-        <ThemedText type="title" onPress={() => logout()}>logout!</ThemedText>
+      <ThemedText type="title"> ok</ThemedText>
+        <ThemedText type="title" onPress={() => {
+          router.replace('/(auth)/');
+          logout()}}>logout!</ThemedText>
       </ThemedView>
+      <ThemedText>{expoPushToken}</ThemedText>
+        <ThemedText type="subtitle">Latest notification:</ThemedText>
+        <ThemedText>{notification?.request.content.title}</ThemedText>
+        <ThemedText onPress={() => setDateTime(getCurrentLocalDate())}>
+          {dateTime.toLocaleDateString(undefined, {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+          })}
+          {' '}
+          {dateTime.toLocaleTimeString(undefined, {
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: true, // for 12-hour format with AM/PM
+          })}
+        </ThemedText>
     </ParallaxScrollView>
   );
 }
