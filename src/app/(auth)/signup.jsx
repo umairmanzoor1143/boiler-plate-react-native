@@ -124,7 +124,7 @@ function SignUp() {
           <Text style={styles.footerText}>Already have an account? </Text>
 
           <TouchableOpacity>
-            <Link href="/login">
+            <Link href="/(auth)">
             <Text style={styles.loginLink} >Login</Text>
             </Link>
           </TouchableOpacity>

@@ -91,7 +91,7 @@ export function getFirebaseErrorMessage(errorCode: string): string {
   }
 }
 
-export function handleFirebaseError({error, cError}): void {
+export function handleFirebaseError({error, cError}:{error?: any, cError?: string}): void {
     if(cError) {
         Alert.alert('Error', cError);
         return;

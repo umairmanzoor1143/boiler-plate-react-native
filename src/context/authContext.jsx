@@ -48,14 +48,43 @@ export const AuthContextProvider = ({ children }) => {
   
   try {
     const result = await signInWithCredential(auth, credential);
+    
+    // Check if user already exists in Firestore
+    const userRef = doc(db, 'users', result.user.uid);
+    const userDoc = await getDoc(userRef);
+    
+    if (userDoc.exists()) {
+      // User exists, update notification token if needed
+      const existingUser = userDoc.data();
+      let updatedData = { ...existingUser };
+      
+      try {
+        const notificationToken = await registerForPushNotificationsAsync();
+        if (notificationToken && notificationToken !== existingUser.expoPushToken) {
+          updatedData = {
+            ...updatedData,
+            expoPushToken: notificationToken,
+            updatedAt: new Date()
+          };
+          await setDoc(userRef, updatedData, { merge: true });
+        }
+      } catch (error) {
+        console.error("Error updating notification token:", error);
+      }
+
+      setUser(updatedData);
+      setIsAuthenticated(true);
+      await AsyncStorage.setItem('user', JSON.stringify(updatedData));
+      return;
+    }
+
+    // New user - generate username and create profile
     const displayName = result.user.displayName || 'Anonymous User';
     const generatedUsername = await generateUsername(displayName);
 
-    // Request notification permissions and get token
     let notificationToken = null;
     try {
       notificationToken = await registerForPushNotificationsAsync();
-      console.log("Notification token obtained:", notificationToken);
     } catch (error) {
       console.error("Error getting notification token:", error);
     }
@@ -73,8 +102,6 @@ export const AuthContextProvider = ({ children }) => {
       updatedAt: new Date()
     };
 
-    // Create user profile in Firestore
-    const userRef = doc(db, 'users', result.user.uid);
     await setDoc(userRef, userData);
     setUser(userData);
     setIsAuthenticated(true);
