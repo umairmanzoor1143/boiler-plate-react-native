@@ -1,13 +1,17 @@
 import React from 'react';
 import { ActivityIndicator, StyleSheet } from 'react-native';
 import { ThemedView } from '@/components/ThemedView';
-import { useAuth } from '@/context/authContext';
+import { useAuth } from '@/context';
 
 
  function LoadingLayout({ 
   children, 
   loading = false, 
   backgroundColor = 'rgba(255, 255, 255, 0.8)' 
+}: {
+  children: React.ReactNode;
+  loading?: boolean;
+  backgroundColor?: string;
 }) {
   const { initialLoading } = useAuth();
   return (

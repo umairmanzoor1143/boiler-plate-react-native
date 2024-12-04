@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import React from "react";
 const ios = Platform.OS == "ios";
-export default function CustomKeyboardView({ children, style }) {
+export default function CustomKeyboardView({ children, style }: { children: React.ReactNode, style?: any }) {
   return (
     <KeyboardAvoidingView
       behavior={ios ? "padding" : "height"}

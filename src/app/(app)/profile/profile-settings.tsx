@@ -8,14 +8,14 @@ import { Ionicons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter, Stack } from 'expo-router';
 import LoadingLayout from '@/components/LoadingLayout';
 import {ThemedInput} from '@/components/ThemedInput';
-import { useAuth } from '@/context/authContext';
+import { useAuth } from '@/context';
 import DeleteAccountModal from '@/components/Modals/DeleteAccountModal';
 
 export default function ProfileSettings() {
   const router = useRouter();
-  const { user } = useAuth();
+  const { user, reauthenticateUser, updateUser } = useAuth();
   const { uri: profileImage, pickImage, setUri } = useImagePicker();
-  const [isEditing, setIsEditing] = useState({
+  const [isEditing, setIsEditing] = useState<{ name: boolean; password: boolean }>({
     name: false,
     password: false
   });
@@ -70,7 +70,7 @@ export default function ProfileSettings() {
   // If no user, return null to prevent rendering anything
   if (!user) return null;
 
-  const handleInputChange = (field, value) => {
+  const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({
       ...prev,
       [field]: value
@@ -80,7 +80,7 @@ export default function ProfileSettings() {
   const handleSave = async () => {
     setLoading(true);
     try {
-      const updates = {};
+      const updates: Record<string, string> = {};
       
       // Handle name update
       if (isEditing.name && formData.displayName !== user.displayName) {
@@ -89,7 +89,7 @@ export default function ProfileSettings() {
 
       // Handle profile image update
       if (profileImage !== user.photoURL) {
-        updates.photoURL = profileImage;
+        updates.photoURL = profileImage || "";
       }
 
       // Handle password update
@@ -111,7 +111,7 @@ export default function ProfileSettings() {
         Alert.alert('Success', 'Profile updated successfully');
         setIsEditing({ name: false, password: false });
       }
-    } catch (error) {
+    } catch (error: any) {
       Alert.alert('Error', error.message);
     } finally {
       setLoading(false);
@@ -208,12 +208,12 @@ export default function ProfileSettings() {
   };
 
   // Modify the setIsEditing function to handle reset
-  const toggleEditing = (field) => {
+  const toggleEditing = (field: string) => {
     setIsEditing(prev => {
-      const newState = { ...prev, [field]: !prev[field] };
+      const newState = { ...prev, [field]: !prev[field as keyof typeof prev] };
       
       // If we're closing the editor, reset the values
-      if (!newState[field]) {
+      if (!newState[field as keyof typeof newState]) {
         if (field === 'name') {
           setFormData(prev => ({
             ...prev,
@@ -237,7 +237,6 @@ export default function ProfileSettings() {
   const handleImageReset = () => {
     setUri(originalValues.photoURL);
   };
-console.log({user})
   return (
     <ScrollView 
         style={styles.scrollView}
@@ -335,7 +334,7 @@ console.log({user})
               <ThemedText style={styles.inputLabel}>Email</ThemedText>
               <ThemedInput
                 style={[styles.inputText, styles.disabledInput]}
-                value={user.email}
+                value={user.email || ""}
                 containerStyle={[styles.input, styles.disabledContainer]}
                 keyboardType="email-address"
                 autoCapitalize="none"

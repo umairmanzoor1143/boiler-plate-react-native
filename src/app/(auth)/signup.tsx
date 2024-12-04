@@ -13,8 +13,8 @@ import CustomKeyboardView from "@/components/CustomKeyboardScroll";
 import LoadingLayout from "@/components/LoadingLayout";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useImagePicker } from '@/hooks/useImagePicker';
-import Colors from "@/styles/colors";
-import { useAuth } from "@/context/authContext";
+import {Colors} from "@/constants/Colors";
+import { useAuth } from "@/context";
 import { FormInput, FormButton } from "@/components/Form";
 import { Link } from "expo-router";
 function SignUp() {
@@ -29,7 +29,7 @@ function SignUp() {
     confirmPassword: "",
   });
 
-  const updateFormData = (key, value) => {
+  const updateFormData = (key:string, value:string) => {
     setFormData(prev => ({
       ...prev,
       [key]: value
@@ -61,7 +61,7 @@ function SignUp() {
     try {
       await signUp({...formData, profileImageUri: profileImage});
     } catch (error) {
-      Alert.alert("Error", error.message);
+      Alert.alert("Error", (error as Error).message);
     }
   };
 
@@ -154,12 +154,12 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: "bold",
     marginBottom: 10,
-    color: Colors.primary600,
+    color: Colors.light.primary600,
   },
   subtitle: {
     fontSize: 16,
     marginBottom: 30,
-    color: Colors.primary600,
+    color: Colors.light.primary600,
   },
   imagePickerContainer: {
     marginBottom: 20,
@@ -173,12 +173,12 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 50,
-    backgroundColor: Colors.primary200,
+    backgroundColor: Colors.light.primary200,
     justifyContent: "center",
     alignItems: "center",
   },
   imagePlaceholderText: {
-    color: Colors.white,
+    color: Colors.light.white,
     fontSize: 14,
   },
   footerTextContainer: {
@@ -190,7 +190,7 @@ const styles = StyleSheet.create({
     color: "#666",
   },
   loginLink: {
-    color: Colors.linkColor,
+    color: Colors.light.linkColor,
     fontWeight: "bold",
   },
 });

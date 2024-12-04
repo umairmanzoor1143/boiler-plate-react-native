@@ -38,10 +38,10 @@ export function ThemedInput({
           styles.input,
           { color: textColor },
           getInputStyleByType(type),
-          leftIcon && styles.inputWithLeftIcon,
-          rightIcon && styles.inputWithRightIcon,
+          leftIcon ? styles.inputWithLeftIcon : null,
+          rightIcon ? styles.inputWithRightIcon : null,
           style,
-        ]}
+        ].filter(Boolean)}
         placeholderTextColor={useThemeColor({}, 'tabIconDefault')}
         autoCapitalize="none"
         autoCorrect={false}

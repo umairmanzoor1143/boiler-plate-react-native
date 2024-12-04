@@ -7,7 +7,7 @@ import React, {
     ReactNode,
   } from "react";
   import * as Notifications from "expo-notifications";
-  import { Subscription } from "expo-modules-core";
+  import { Subscription } from "expo-notifications";
   import { registerForPushNotificationsAsync } from "@/utils/registerForPushNotificationsAsync";
   
   interface NotificationContextType {
@@ -16,19 +16,11 @@ import React, {
     error: Error | null;
   }
   
-  const NotificationContext = createContext<NotificationContextType | undefined>(
+  export const NotificationContext = createContext<NotificationContextType | undefined>(
     undefined
   );
   
-  export const useNotification = () => {
-    const context = useContext(NotificationContext);
-    if (context === undefined) {
-      throw new Error(
-        "useNotification must be used within a NotificationProvider"
-      );
-    }
-    return context;
-  };
+  
   
   interface NotificationProviderProps {
     children: ReactNode;

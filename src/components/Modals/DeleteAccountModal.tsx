@@ -11,23 +11,23 @@ import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "@/constants/Colors";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedInput } from "@/components/ThemedInput";
-import { useAuth } from "@/context/authContext";
+import { useAuth } from "@/context";
 import { useRouter } from "expo-router";
 import { GoogleSignin, statusCodes } from "@react-native-google-signin/google-signin";
 import { GoogleAuthProvider, reauthenticateWithCredential } from "firebase/auth";
 import { auth } from "@/firebaseConfig";
 
 
-const DeleteAccountModal = ({ visible, onClose }) => {
+const DeleteAccountModal = ({ visible, onClose }: { visible: boolean, onClose: () => void }) => {
   const router = useRouter();
   const { deleteUserAccount, reauthenticateUser, logout, user } = useAuth();
 
   const [loading, setLoading] = useState(false);
-  const [step, setStep] = useState(null);
+  const [step, setStep] = useState<"verify" | "confirm" | "success" | null>(null);
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [authProvider, setAuthProvider] = useState(null);
+  const [authProvider, setAuthProvider] = useState<"password" | "google" | null>(null);
 
   useEffect(() => {
     const configureGoogleSignIn = async () => {
@@ -81,8 +81,8 @@ const DeleteAccountModal = ({ visible, onClose }) => {
       // Get the user credentials
       const userInfo = await GoogleSignin.signIn();
       const { accessToken } = await GoogleSignin.getTokens();
-      const googleUser = userInfo.data;   
-      if (!googleUser.idToken) {
+      const googleUser = userInfo?.data;   
+      if (!googleUser?.idToken) {
         throw new Error('No ID Token present!');
       }
 
@@ -93,9 +93,11 @@ const DeleteAccountModal = ({ visible, onClose }) => {
       );
 
       // Reauthenticate the user using reauthenticateWithCredential
-      await reauthenticateWithCredential(auth.currentUser, credential);
+      if(auth?.currentUser) {
+        await reauthenticateWithCredential(auth?.currentUser, credential);
+      }
       return true;
-    } catch (error) {
+    } catch (error: any) {
       console.error('Detailed Google Re-auth Error:', error);
       
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
@@ -122,9 +124,9 @@ const DeleteAccountModal = ({ visible, onClose }) => {
         try {
           await reauthenticateWithGoogle();
           await deleteUserAccount();
-        } catch (error) {
+        } catch (error: any) {
           console.error('Google auth error:', error);
-          throw new Error(error.message || 'Failed to authenticate with Google');
+          throw new Error(error?.message || 'Failed to authenticate with Google');
         }
       }
       
@@ -133,9 +135,9 @@ const DeleteAccountModal = ({ visible, onClose }) => {
         onClose();
         // router.replace('/(auth)/');
       }, 1500);
-    } catch (error) {
+    } catch (error: any) {
       console.error('Delete account error:', error);
-      Alert.alert("Error", error.message);
+      Alert.alert("Error", error?.message || "Failed to delete account");
     } finally {
       setLoading(false);
     }

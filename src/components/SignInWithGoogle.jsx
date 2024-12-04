@@ -1,5 +1,5 @@
 import { TouchableOpacity, Text, StyleSheet, Image } from "react-native";
-import { useAuth } from "@/context/authContext";
+import { useAuth } from "@/context";
 // import GoogleIcon from "@/assets/icons/GoogleIcon.svg";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import { useEffect } from "react";

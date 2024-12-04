@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   Text,
 } from "react-native";
-import Colors from "@/styles/colors";
+import {Colors} from "@/constants/Colors";
 const InputField = ({
   value,
   onChangeText,
@@ -16,6 +16,14 @@ const InputField = ({
   style = {},
   ref,
   ...rest
+}: {
+  value: string;
+  onChangeText: (text: string) => void;
+  placeHolder: string;
+  secureTextEntry?: boolean;
+  editable?: boolean;
+  style?: StyleSheet.NamedStyles<any>;
+  ref?: React.RefObject<TextInput>;
 }) => {
   return (
     <View style={[styles.container, style]}>
@@ -41,13 +49,13 @@ const styles = StyleSheet.create({
   container: {
     width: "100%",
     height: 50,
-    backgroundColor: Colors.lightGrey100,
+    backgroundColor: Colors.light.lightGrey100,
     borderRadius: 12,
     justifyContent: "center",
     paddingHorizontal: 15,
   },
   input: {
     fontSize: 14,
-    color: Colors.primary800,
+    color: Colors.light.primary800,
   },
 });

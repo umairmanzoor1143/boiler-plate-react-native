@@ -11,13 +11,13 @@ import {
   Alert,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Colors from "@/styles/colors";
+import {Colors} from "@/constants/Colors";
 import SignInWithGoogle from "@/components/SignInWithGoogle";
 import InputField from "@/components/InputField";
 import CustomKeyboardView from "@/components/CustomKeyboardScroll";
 import { Link } from "expo-router";
 import LoadingLayout  from "@/components/LoadingLayout";
-import { useAuth } from "@/context/authContext";
+import { useAuth } from "@/context";
 import {ThemedInput} from "@/components/ThemedInput";
 const { height } = Dimensions.get("window");
 
@@ -36,7 +36,7 @@ function LogIn() {
   }, [navigation]);
 
   //Redux Dispatcher
-  const handleLogin = (email, password) => {
+  const handleLogin = (email:string, password:string) => {
     if (!email || !password) {
       Alert.alert('Error', 'Please fill in all fields');
       return;
@@ -108,7 +108,7 @@ function LogIn() {
             <Text>Don't have an account?</Text>
             <TouchableOpacity>
 
-            <Link href="/signup">
+            <Link href="/(auth)/signup">
                 <Text style={styles.signupLink}>SignUp</Text>
             </Link>
             </TouchableOpacity>
@@ -141,12 +141,12 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: "bold",
     marginBottom: 10,
-    color: Colors.primary600,
+    color: Colors.light.primary600,
   },
   subtitle: {
     fontSize: 16,
     marginBottom: 30,
-    color: Colors.primary600,
+    color: Colors.light.primary600,
   },
   inputContainer: {
     width: "100%",
@@ -157,16 +157,16 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   labelText: {
-    color: Colors.primary200,
+    color: Colors.light.primary200,
   },
   input: {
     backgroundColor: "#f2f2f2",
   },
   inputText: {
-    color: Colors.primary600,
+    color: Colors.light.primary600,
   },
   forgotPassword: {
-    color: Colors.linkColor,
+    color: Colors.light.linkColor,
     fontWeight: "bold",
   },
   loginButton: {
@@ -177,13 +177,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   loginButtonText: {
-    color: Colors.white,
+    color: Colors.light.white,
     fontSize: 16,
     fontWeight: "bold",
   },
   orText: {
     fontSize: 16,
-    color: Colors.primary600,
+    color: Colors.light.primary600,
     marginVertical: 20,
   },
   signupText: {
@@ -192,7 +192,7 @@ const styles = StyleSheet.create({
     color: "#666",
   },
   signupLink: {
-    color: Colors.linkColor,
+    color: Colors.light.linkColor,
     fontWeight: "bold",
   },
   footerTextContainer: {

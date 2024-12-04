@@ -1,6 +1,6 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import Colors from "@/styles/colors";
+import { View, Text, TouchableOpacity, StyleSheet, KeyboardTypeOptions } from 'react-native';
+import {Colors} from "@/constants/Colors";
 import {ThemedInput} from "@/components/ThemedInput";
 
 export const FormInput = ({ 
@@ -11,6 +11,14 @@ export const FormInput = ({
   keyboardType = "default",
   placeholder,
   autoCapitalize = "none"
+}: {
+  label: string;
+  value: string;
+  onChangeText: (text: string) => void;
+  secureTextEntry?: boolean;
+  keyboardType?: KeyboardTypeOptions;
+  placeholder?: string;
+  autoCapitalize?: "none" | "sentences" | "words" | "characters";
 }) => (
   <View style={styles.inputContainer}>
     <View style={styles.labelContainer}>
@@ -32,7 +40,11 @@ export const FormInput = ({
 export const FormButton = ({ 
   title, 
   onPress, 
-  backgroundColor = Colors.primary600 
+  backgroundColor = Colors.light.primary600
+}: {
+  title: string;
+  onPress: () => void;
+  backgroundColor?: string;
 }) => (
   <TouchableOpacity 
     style={[styles.button, { backgroundColor }]} 
@@ -51,14 +63,14 @@ const styles = StyleSheet.create({
   },
   labelText: {
     fontSize: 14,
-    color: Colors.primary200,
+    color: Colors.light.primary200,
     fontWeight: '500',
   },
   input: {
     backgroundColor: '#f2f2f2',
   },
   inputText: {
-    color: Colors.primary600,
+    color: Colors.light.primary600,
   },
   button: {
     width: '100%',
@@ -68,7 +80,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   buttonText: {
-    color: Colors.white,
+    color: Colors.light.white,
     fontSize: 16,
     fontWeight: 'bold',
   },

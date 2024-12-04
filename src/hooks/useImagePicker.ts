@@ -5,11 +5,11 @@ import { Alert } from 'react-native';
 
 
 export const useImagePicker = () => {
-  const [uri, setUri] = useState(null);
+  const [uri, setUri] = useState<string | null>(null);
 
   const pickImage = async () => {
     try {
-      const result = await ImagePicker.launchImageLibraryAsync({
+      const result: ImagePicker.ImagePickerResult = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
         aspect: [1, 1],
@@ -17,7 +17,7 @@ export const useImagePicker = () => {
       });
 
       if (!result.canceled) {
-        setUri(result.assets[0].uri);
+        setUri(result.assets[0].uri as string);
       }
     } catch (error) {
       console.error("Error picking image:", error);

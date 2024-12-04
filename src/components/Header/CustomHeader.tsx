@@ -1,7 +1,20 @@
 import React from "react";
-import { View, TouchableOpacity, StyleSheet, Text } from "react-native";
+import { View, TouchableOpacity, StyleSheet, Text, ViewStyle } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "@/constants/Colors";
+
+type CustomHeaderProps = {
+  leftComponent?: React.ReactNode;
+  leftIcon?: keyof typeof Ionicons.glyphMap;
+  onPressLeft?: () => void;
+  centerComponent?: React.ReactNode;
+  rightComponent?: React.ReactNode;
+  rightIcon?: keyof typeof Ionicons.glyphMap;
+  style?: ViewStyle;
+  onPressRight?: () => void;
+  borderShadow?: boolean;
+  title?: string;
+}
 
 function CustomHeader({
   leftComponent,
@@ -14,8 +27,9 @@ function CustomHeader({
   onPressRight,
   borderShadow,
   title
-}) {
- const borderBottom = borderShadow ? styles.borderBottom : {};
+}: CustomHeaderProps) {
+  const borderBottom = borderShadow ? styles.borderBottom : {};
+  
   return (
     <View style={[styles.header, borderBottom, style]}>
       <View style={styles.HeaderLeft}>

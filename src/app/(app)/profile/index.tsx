@@ -1,13 +1,15 @@
 import { View, TouchableOpacity, StyleSheet, Switch, Image, useColorScheme, ScrollView } from 'react-native';
 import { Link, useRouter } from 'expo-router';
-import { useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import { Colors } from '@/constants/Colors';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-import { useAuth } from '@/context/authContext';
+import { useAuth } from '@/context';
+import { ComponentProps } from 'react';
 
-const SettingIcon = ({ name, backgroundColor }) => (
+type IconProps = ComponentProps<typeof Ionicons>;
+
+const SettingIcon = ({ name, backgroundColor }: { name: IconProps['name'], backgroundColor: string }) => (
   <View style={[styles.iconContainer, { backgroundColor }]}>
     <Ionicons name={name} size={20} color={Colors.light.background} />
   </View>
@@ -26,7 +28,6 @@ export default function ProfileScreen() {
   };
 
   return (
-   
       <ScrollView 
         style={styles.scrollView}
         contentContainerStyle={styles.scrollContent}
@@ -80,7 +81,7 @@ export default function ProfileScreen() {
               />
             </View>
 
-            <Link href="/legal/privacy-policy" asChild>
+            <Link href="/" asChild>
               <TouchableOpacity style={styles.option}>
                 <SettingIcon 
                   name="shield-outline" 
@@ -93,7 +94,7 @@ export default function ProfileScreen() {
               </TouchableOpacity>
             </Link>
 
-            <Link href="/legal/terms" asChild>
+            <Link href="/" asChild>
               <TouchableOpacity style={styles.option}>
                 <SettingIcon 
                   name="information-circle-outline" 
@@ -106,7 +107,7 @@ export default function ProfileScreen() {
               </TouchableOpacity>
             </Link>
 
-            <Link href="/legal/about" asChild>
+            <Link href="/" asChild>
               <TouchableOpacity style={styles.option}>
                 <SettingIcon 
                   name="information-circle-outline" 
@@ -123,7 +124,7 @@ export default function ProfileScreen() {
               style={styles.logoutButton} 
               onPress={handleLogout}
             >
-              <View style={[styles.iconContainer, styles.logoutIcon]}>
+              <View style={[styles.iconContainer]}>
                 <Ionicons 
                   name="log-out-outline" 
                   size={20} 
@@ -228,13 +229,6 @@ const styles = StyleSheet.create({
     borderRadius: 18,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  logoutIcon: {
     color: Colors.light.background,
-  },
-  logoutText: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: Colors.light.background,
-  },
+  }
 });

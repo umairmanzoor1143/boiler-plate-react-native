@@ -6,7 +6,7 @@ export const useUploadImage = () => {
   const [isUploading, setIsUploading] = useState(false);
   const [progress, setProgress] = useState(0);
 
-  const uploadImage = async (uri, folder = 'images') => {
+  const uploadImage = async (uri: string, folder = 'images') => {
     if (!uri) return null;
     
     setIsUploading(true);

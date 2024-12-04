@@ -2,7 +2,7 @@ import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '@/firebaseConfig';
 
 export const useGenerateUsername = () => {
-  const generateUsername = async (displayName) => {
+  const generateUsername = async (displayName: string) => {
     const cleanName = displayName
       .toLowerCase()
       .replace(/[^a-zA-Z0-9]/g, '') // Remove special characters

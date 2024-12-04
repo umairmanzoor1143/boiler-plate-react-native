@@ -535,10 +535,3 @@ export const AuthContextProvider = ({ children }) => {
   );
 };
 
-export const useAuth = () => {
-  const value = useContext(AuthContext);
-  if (!value) {
-     handleFirebaseError({cError:"useAuth must be wrapped inside AuthContextProvider"});
-  }
-  return value;
-};
